@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  mongodbx:
+    image: mongo
+    restart: always
+    volumes:
+      - persist-data:/data/db/persist-data
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo # this network
+      - persist-db # external network
+
+volumes:
+  persist-data:
+    driver: local
+
+networks:
+  mongo: # this network
+    driver: bridge
+  persist-db: # external network
+    external: true

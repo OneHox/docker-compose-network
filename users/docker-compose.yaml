@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  users-backend:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - POSTS_SRV=http://posts-backend:5000
+      - MONGO_URI=mongodb://mongodbx:27017
+      - REDIS_URI=redis://redisx:6379
+    volumes:
+      - /app/node_modules
+      - .:/app
+    networks:
+      - users # this network
+      - main-network # external network
+      - in-memory-db # external network
+      - persist-db # external network
+    
+    # these two command keeps container running [in case you want]
+    # stdin_open: true
+    # tty: true
+
+networks:
+  users: # this network
+    driver: bridge
+  main-network: # external network
+    external: true
+  in-memory-db: # external network
+    external: true
+  persist-db: # external network
+    external: true

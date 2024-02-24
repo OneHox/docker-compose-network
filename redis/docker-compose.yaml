@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  redisx:
+    image: redis
+    restart: always
+    volumes:
+      - cache:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - redis # this network
+      - in-memory-db # external network
+
+volumes:
+  cache:
+    driver: local
+
+networks:
+  redis: # this network
+    driver: bridge
+  in-memory-db: # external network
+    external: true
